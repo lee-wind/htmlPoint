@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Html各个点</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html{
+
+        }
+        body{
+
+        }
+        div.father{
+            /*absolute*/
+            /*position: relative; */
+            /*width: 1000px;*/
+            width: 200px;
+            height: 600px;
+            /*height: 1400px;*/
+            padding: 20px 30px;
+            margin-top: -10px;
+            margin-left: -20px;
+            background-color: pink;
+            border-width: 20px 30px;
+            border-style: solid;
+            border-color: yellow;
+            overflow: scroll;
+        }
+        .father>.son{
+            height: 800px;
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="father">
+        <div class="son">
+
+        </div>
+    </div>
+    <script>
+        let fatherEl = document.getElementsByClassName(`father`)[0];
+        let sonEl = document.getElementsByClassName(`son`)[0];
+
+        // fatherEl.addEventListener('click', showFather, true); //true为捕获阶段执行
+        // sonEl.addEventListener('click', showSon, true); //true为捕获阶段执行，父类先执行click函数，然后子类执行click函数
+
+        fatherEl.addEventListener('click', showFather, false); //默认false, 冒泡阶段执行
+        sonEl.addEventListener('click', showSon, false); //默认false,冒泡阶段执行，子类先执行click函数，然后父类执行click函数
+
+        function showFather(e){
+            //e.stopPropagation();//阻止传播，如果不加，捕获阶段：子元素点击后，父元素点击函数先触发，然后子元素才点击函数才触发，
+                                    //如果加了，捕获阶段：子元素点击了，父元素点击函数出发，但子元素函数不会触发
+            console.log("Father：");
+            console.log(`clientWidth: ${fatherEl.clientWidth}`); //width+padding-left+padding-right
+            console.log(`clientHeight: ${fatherEl.clientHeight}`); //height+padding-top+padding-bottom
+            console.log(`clientTop: ${fatherEl.clientTop}`); //=border-top
+            console.log(`clientLeft: ${fatherEl.clientLeft}`); //border-left
+            console.log(`offsetWidth: ${fatherEl.offsetWidth}`); //width+padding-left+padding-right+border-left+border-right+
+            console.log(`offsetHeight: ${fatherEl.offsetHeight}`); //height+padding-top+padding-bottom+border-top+border-bottom
+            console.log(`topToWindowTop: ${fatherEl.getBoundingClientRect().top}`);
+            console.log(`bottomToWindowTop: ${fatherEl.getBoundingClientRect().bottom}`);
+            console.log(`leftToWindowLeft: ${fatherEl.getBoundingClientRect().left}`);
+            console.log(`rightToWindowRight: ${fatherEl.getBoundingClientRect().right}`);
+            console.log(`clientX：${e.clientX}`);//相对于可视窗口window
+            console.log(`clientY：${e.clientY}`);//相对于可视窗口window
+            console.log(`pageX：${e.pageX}`);//相对于html(能够看到的，包括滚动条内的)
+            console.log(`pageY：${e.pageY}`);//相对于html(能够看到的，包括滚动条内的)
+            console.log(`offsetX：${e.offsetX}`);//相对于元素自身,起始点：width+border-left+border-right
+            console.log(`offsetY：${e.offsetY}`);//相对于元素自身,起始点：height+border-top+border-bottom
+        }
+        function showSon(e){
+            e.stopPropagation();//阻止传播，如果不加，冒泡阶段：子元素点击后先触发函数， 然后父元素点击函数也会触发
+                                    //如果加了，冒泡阶段：子元素点击函数触发，父元素点击函数不会触发
+            console.log("Son：");
+            console.log(`clientWidth: ${sonEl.clientWidth}`); //width+padding-left+padding-right
+            console.log(`clientHeight: ${sonEl.clientHeight}`); //height+padding-top+padding-bottom
+            console.log(`clientTop: ${sonEl.clientTop}`); //=border-top
+            console.log(`clientLeft: ${sonEl.clientLeft}`); //border-left
+            console.log(`offsetWidth: ${sonEl.offsetWidth}`); //width+padding-left+padding-right+border-left+border-right+
+            console.log(`offsetHeight: ${sonEl.offsetHeight}`); //height+padding-top+padding-bottom+border-top+border-bottom
+            console.log(`topToWindowTop: ${sonEl.getBoundingClientRect().top}`);
+            console.log(`bottomToWindowTop: ${sonEl.getBoundingClientRect().bottom}`);
+            console.log(`leftToWindowLeft: ${sonEl.getBoundingClientRect().left}`);
+            console.log(`rightToWindowRight: ${sonEl.getBoundingClientRect().right}`);
+
+            console.log(`offsetTop：${sonEl.offsetTop}`); //到定位了的父级的padding-top(包含padding-top) //默认window
+            console.log(`offsetLeft: ${sonEl.offsetLeft}`); //到定位了的父级的padding-left(包含padding-left) //默认window
+
+            console.log(`clientX：${e.clientX}`);//相对于可视窗口window
+            console.log(`clientY：${e.clientY}`);//相对于可视窗口window
+            console.log(`pageX：${e.pageX}`);//相对于html(能够看到的，包括滚动条内的)
+            console.log(`pageY：${e.pageY}`);//相对于html(能够看到的，包括滚动条内的)
+            console.log(`offsetX：${e.offsetX}`);//相对于元素自身,起始点：width+border-left+border-right
+            console.log(`offsetY：${e.offsetY}`);//相对于元素自身,起始点：height+border-top+border-bottom
+        }
+    </script>
+</body>
+</html>
